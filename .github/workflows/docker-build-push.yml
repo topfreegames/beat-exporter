@@ -32,7 +32,8 @@ jobs:
       - name: Login to Quay.io Registry
         run: echo ${{ secrets.QUAYIO_TOKEN }} | docker login -u ${{ secrets.QUAYIO_USERNAME }} --password-stdin quay.io
       - name: retag for quay.io
-        run: docker tag ${GITHUB_REPOSITORY}:latest quay.io/${GITHUB_REPOSITORY}:latest 
-        run: docker tag ${GITHUB_REPOSITORY}:latest quay.io/${GITHUB_REPOSITORY}:${{steps.vars.outputs.tag}}
+        run: |
+            docker tag ${GITHUB_REPOSITORY}:latest quay.io/${GITHUB_REPOSITORY}:latest 
+            docker tag ${GITHUB_REPOSITORY}:latest quay.io/${GITHUB_REPOSITORY}:${{steps.vars.outputs.tag}}
       - name: Push the latest Docker image
         run: docker push --all-tags quay.io/${GITHUB_REPOSITORY}
