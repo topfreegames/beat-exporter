@@ -1,5 +1,5 @@
 FROM quay.io/prometheus/busybox:latest
-LABEL MAINTAINER="Audrius Karabanovas <auk@trustpilot.com>"
+LABEL MAINTAINER="Juan Ignacio Borda <juan.borda@tfgco.com>"
 
 COPY .build/linux-amd64/beat-exporter /bin/beat-exporter
 

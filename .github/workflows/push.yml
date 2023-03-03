@@ -37,7 +37,7 @@ jobs:
     needs: build
     steps:
     - name: Check out code into the Go module directory
-      uses: actions/checkout@v1
+      uses: actions/checkout@v2
       with:
           fetch-depth: 1      
 
@@ -47,7 +47,7 @@ jobs:
         name: binaries
         path: .build
     
-    - name: Build docker image
-      run: |
-        docker build . -t trustpilot/beat-exporter
+    # - name: Build docker image
+    #   run: |
+    #     docker build --platform linux/amd64,linux/arm64 . -t tfgco/beat-exporter
 
