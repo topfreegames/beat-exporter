@@ -17,14 +17,14 @@ jobs:
         # Add support for more platforms with QEMU (optional)
         # https://github.com/docker/setup-qemu-action
         name: Set up QEMU
-        uses: docker/setup-qemu-action@v2        
+        uses: docker/setup-qemu-action@v2
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
       - name: Get the current release version
         id: vars
-        run: echo "GIT_LAST_TAG=$(git tag --sort=committerdate|tail -n 1)" >> $GITHUB_ENV
+        run: echo "IMAGE_VERSION=${GITHUB_REF/refs\/tags\//}" >> $GITHUB_ENV
       - name: Build the Docker image
-        run: docker buildx build . --platform linux/amd64,linux/arm64 --file Dockerfile --tag tfgco/beat-exporter:latest --tag tfgco/beat-exporter:${{env.GIT_LAST_TAG}}
+        run: docker buildx build . --platform linux/amd64,linux/arm64 --file Dockerfile --tag tfgco/beat-exporter:latest --tag tfgco/beat-exporter:${{env.IMAGE_VERSION}}
       - name: Login to DockerHub Registry
         run: echo ${{ secrets.DOCKERHUB_TOKEN }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
       - name: Push the latest Docker image
@@ -34,6 +34,6 @@ jobs:
       - name: retag for quay.io
         run: |
             docker tag tfgco/beat-exporter:latest quay.io/tfgco/beat-exporter:latest 
-            docker tag tfgco/beat-exporter:latest quay.io/tfgco/beat-exporter:${{env.GIT_LAST_TAG}}
+            docker tag tfgco/beat-exporter:latest quay.io/tfgco/beat-exporter:${{env.IMAGE_VERSION}}
       - name: Push the latest Docker image
         run: docker push --all-tags quay.io/tfgco/beat-exporter
