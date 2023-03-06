@@ -2,8 +2,8 @@ name: new Docker image Build test
 
 
 
-# on:
-#   push:
+on:
+  push:
 jobs:
   dockerhub-build-push:
     name: DockerHub Build and Push
